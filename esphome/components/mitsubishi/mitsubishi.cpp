@@ -19,6 +19,9 @@ const uint8_t MITSUBISHI_FAN_3 = 0x43;
 const uint8_t MITSUBISHI_FAN_4 = 0x44;
 const uint8_t MITSUBISHI_FAN_QUIET = 0x45;
 
+const uint8_t MITSUBISHI_SWING_VERTICAL = 0x28; // Setting 5
+const uint8_t MITSUBISHI_SWING_HORIIZONTAL = 0x08; // Setting 1
+const uint8_t MITSUBISHI_SWING_SWING = 0x38;
 // Pulse parameters in usec
 const uint16_t MITSUBISHI_BIT_MARK = 430;
 const uint16_t MITSUBISHI_ONE_SPACE = 1250;
@@ -66,6 +69,21 @@ void MitsubishiClimate::transmit_state() {
     case climate::CLIMATE_FAN_AUTO:
     default:
       remote_state[9] = MITSUBISHI_FAN_AUTO;
+      break;
+  }
+
+      switch (this->swing_mode) {
+    case climate::CLIMATE_SWING_HORIZONTAL:
+      remote_state[9] = remote_state[9]||MITSUBISHI_SWING_HORIIZONTAL;
+      break;
+    case climate::CLIMATE_SWING_VERTICAL:
+      remote_state[9] = remote_state[9]||MITSUBISHI_SWING_VERTICAL;
+      break;
+    case climate::CLIMATE_SWING_BOTH:
+      remote_state[9] = remote_state[9]||MITSUBISHI_SWING_SWING;
+      break;
+    case climate::CLIMATE_SWING_OFF:
+    default:
       break;
   }
 
