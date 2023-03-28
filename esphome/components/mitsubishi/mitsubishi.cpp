@@ -12,7 +12,12 @@ const uint8_t MITSUBISHI_COOL = 0x18;
 const uint8_t MITSUBISHI_DRY = 0x10;
 const uint8_t MITSUBISHI_AUTO = 0x20;
 const uint8_t MITSUBISHI_HEAT = 0x08;
-const uint8_t MITSUBISHI_FAN_AUTO = 0x00;
+
+const uint8_t MITSUBISHI_FAN_AUTO = 0x80;
+const uint8_t MITSUBISHI_FAN_2 = 0x42;
+const uint8_t MITSUBISHI_FAN_3 = 0x43;
+const uint8_t MITSUBISHI_FAN_4 = 0x44;
+const uint8_t MITSUBISHI_FAN_QUIET = 0x45;
 
 // Pulse parameters in usec
 const uint16_t MITSUBISHI_BIT_MARK = 430;
@@ -36,9 +41,31 @@ void MitsubishiClimate::transmit_state() {
     case climate::CLIMATE_MODE_HEAT_COOL:
       remote_state[6] = MITSUBISHI_AUTO;
       break;
+    case climate::CLIMATE_MODE_DRY:
+      remote_state[6] = MITSUBISHI_DRY;
+      break;
     case climate::CLIMATE_MODE_OFF:
     default:
       remote_state[5] = MITSUBISHI_OFF;
+      break;
+  }
+
+    switch (this->fan_mode.value()) {
+    case climate::CLIMATE_FAN_QUIET:
+      remote_state[9] = MITSUBISHI_FAN_QUIET;
+      break;
+    case climate::CLIMATE_FAN_LOW:
+      remote_state[9] = MITSUBISHI_FAN_2;
+      break;
+    case climate::CLIMATE_FAN_MEDIUM:
+      remote_state[9] = MITSUBISHI_FAN_3;
+      break;
+    case climate::CLIMATE_FAN_HIGH:
+      remote_state[9] = MITSUBISHI_FAN_4;
+      break;
+    case climate::CLIMATE_FAN_AUTO:
+    default:
+      remote_state[9] = MITSUBISHI_FAN_AUTO;
       break;
   }
 
