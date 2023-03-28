@@ -74,13 +74,13 @@ void MitsubishiClimate::transmit_state() {
 
       switch (this->swing_mode) {
     case climate::CLIMATE_SWING_HORIZONTAL:
-      remote_state[9] = (remote_state[9] & MITSUBISHI_SWING_HORIIZONTAL);
+      remote_state[9] |= MITSUBISHI_SWING_HORIIZONTAL;
       break;
     case climate::CLIMATE_SWING_VERTICAL:
-      remote_state[9] = (remote_state[9] & MITSUBISHI_SWING_VERTICAL);
+      remote_state[9]|= MITSUBISHI_SWING_VERTICAL;
       break;
     case climate::CLIMATE_SWING_BOTH:
-      remote_state[9] = (remote_state[9] & MITSUBISHI_SWING_SWING);
+      remote_state[9] |= MITSUBISHI_SWING_SWING;
       break;
     case climate::CLIMATE_SWING_OFF:
     default:
